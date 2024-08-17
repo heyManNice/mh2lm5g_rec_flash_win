@@ -1,0 +1,20 @@
+package_info=(
+    #刷机之后的系统/System after flashing
+    [target]="Windows"
+
+    #这个刷机包适配的机型/This flashing package is compatible with different models
+    [device]="mh2lm5g"
+
+    #刷机包简介/Introduction to flashing package
+    [brief]="brief"
+
+    #是否启用分区功能/Whether to enable partition function
+    #1是启用，0是禁用/1 is enabled, 0 is disabled
+    [part]=1
+
+    #安卓分区大小,合理值范围是0.11到0.7 / The reasonable range for Android partition size is 0.11 to 0.7
+    #表示安卓分区占比大小,0.11标识占磁盘的15% / Indicates the proportion size of Android partitions, with a 0.11 mark representing 15% of the disk
+    #其余空间自动分给windows / The remaining space is automatically allocated to Windows
+    [android]=0.23
+
+)
