@@ -22,8 +22,8 @@ LGv50s刷windows双系统的卡刷包脚本代码，可以自定义配置安卓�
 - 手机状态：可以进入第三方rec
 ### 操作
 - 格式化U盘(SD卡)：把U盘格(或者SD卡)式化为exFAT格式，如果已经是这个格式的话可以不用操作
-- 复制刷机包：把刷机包中解压出来的的flashlmdd_rec_flash_win文件夹直接放在U盘(SD卡)的根目录
-- 配置刷机包：打开flashlmdd_rec_flash_win文件夹,会看到package.info，用记事本打开它
+- 复制刷机包：把刷机包中解压出来的的mh2lm5g_rec_flash_win文件夹直接放在U盘(SD卡)的根目录
+- 配置刷机包：打开mh2lm5g_rec_flash_win文件夹,会看到package.info，用记事本打开它
 	          里面可以设置是否要分区和安卓与windows的分区大小
 	          手机如果是第一次安装windows的话，分区功能必须要打开
 - ~~安装twrp(可选)：推荐使用的rec为v50-twrp-installer-v3.6.0-flashlmdd_ab-by_youngguo(已放入压缩包中)，它是开发过程中测试的环境，兼容性比较好~~
