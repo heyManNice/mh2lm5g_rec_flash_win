@@ -56,6 +56,47 @@ function show_progress(){
     fi
 }
 
+#从字符串资源打印格式化字符
+#参数1 字符串资源的名字或者需要格式化输出的字符串
+#参数n 需要格式化显示的内容
+function prints(){
+    local format_str
+    if [ -n "${STR_RES[${1}]}" ]
+    then
+        format_str="${STR_RES[$1]}"
+    else
+        format_str=$1
+    fi
+    
+    shift
+    local str=$(printf "${format_str}" "$@")
+    ui_print "$str"
+}
+
+
+#从twrp配置中获取语言
+function load_languages(){
+    if [ -r ${TWRP_CONFIG_PATH} ]
+    then
+        local lang_arr=($(${BUSYBOX} ls ${BASE_PATH_LANG} | ${BUSYBOX} awk -F. '{print $1}'))
+        local LOACL
+        for lang in ${lang_arr[@]}
+        do
+            ${BUSYBOX} cat ${TWRP_CONFIG_PATH} | ${BUSYBOX} grep -q "${lang}" && LOACL=${lang}
+        done
+        
+        #加载该语言
+        source "${BASE_PATH_LANG}/${LOACL}.sh"
+
+        #如果找不到语言，那就加载英文
+        [ -n "${LOACL}" ] || source "${BASE_PATH_LANG}/en.sh"
+    else
+        source "${BASE_PATH_LANG}/en.sh"
+    fi
+}
+
+get_outfd
+load_languages
 
 #显示错误信息并且退出
 #参数1 报错信息
@@ -66,30 +107,34 @@ function err_exit(){
     ui_print "$(cat /tmp/recovery.log | tail -n 5)"
     ui_print " "
     ui_print "XXXX========================"
-    ui_print "[错误/ERROR]${1}";
+    ui_print "[${STR_RES[str_error]}]${1}";
     ui_print " "
     exit $2;
 }
 
-#从twrp配置中获取语言
-function load_languages(){
-    local lang_arr=($(${BUSYBOX} ls ${BASE_PATH_LANG} | ${BUSYBOX} awk -F. '{print $1}'))
-    local LOACL
-    for lang in ${lang_arr[@]}
-    do
-        ${BUSYBOX} cat ${TWRP_CONFIG_PATH} | ${BUSYBOX} grep -q "${lang}" && LOACL=${lang}
-    done
-    
-    #加载该语言
-    source "${BASE_PATH_LANG}/${LOACL}.sh"
+#从字符串资源格式化输出字符串显示错误信息并且退出
+#参数1 报错信息
+#参数2 各个参数值
+function err_exitf(){
+    local format_str
+    if [ -n "${STR_RES[${1}]}" ]
+    then
+        format_str="${STR_RES[$1]}"
+    else
+        format_str=$1
+    fi
+    shift
+    local str=$(printf "${format_str}" "$@")
 
-    #如果找不到语言，那就加载英文
-    [ -n "${LOACL}" ] || source "${BASE_PATH_LANG}/en.sh"
-
+    ui_clear
+    ui_print "LOG:"
+    ui_print "$(cat /tmp/recovery.log | tail -n 5)"
+    ui_print " "
+    ui_print "XXXX========================"
+    ui_print "[${STR_RES[str_error]}]${str}";
+    ui_print " "
+    exit 10;
 }
-
-get_outfd
-load_languages
 
 
 [ -r ${BASE_PATH_SH}/build_info.sh ] || err_exit "${STR_RES[cant_found]}${BASE_PATH_SH}/build_info.sh,${STR_RES[cancel_flashing]}" 10
