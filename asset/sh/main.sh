@@ -156,7 +156,7 @@ function print_info(){
 #检测当前环境是否满足刷机要求
 function env_check(){
     #检测是否在rec中
-    [ -r /init.rc ] && err_exitf str_please_run_in_rec
+    #[ -r /init.rc ] && err_exitf str_please_run_in_rec
 
     #检测root
     [ "$(${BUSYBOX} whoami)" != "root" ] && err_exitf str_please_run_in_root
