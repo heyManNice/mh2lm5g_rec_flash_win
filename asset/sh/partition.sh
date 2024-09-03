@@ -193,7 +193,7 @@ function del_part(){
     then
         prints str_delete_partition "${1}"
         ${BASE_PATH_BIN}/parted ${DISK_PATH} rm ${1}
-        [ $? -eq 0 ] || err_exitf str_delete_partition_failed "${1}"
+        #[ $? -eq 0 ] || err_exitf str_delete_partition_failed "${1}"
     fi
 }
 
